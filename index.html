@@ -2,70 +2,87 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>潮州青投 - 企业体检预约</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #f5f5f5; }
-    .header { background: linear-gradient(135deg, #1a4d7a, #2d6a9f); color: white; padding: 20px; text-align: center; }
-    .header h1 { font-size: 22px; margin-bottom: 8px; }
-    .header p { font-size: 14px; opacity: 0.9; }
-    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-    .form-card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
-    .form-title { font-size: 18px; font-weight: 700; text-align: center; margin-bottom: 4px; }
-    .form-sub { font-size: 12px; color: #888; text-align: center; margin-bottom: 22px; }
-    .form-group { margin-bottom: 16px; }
-    .form-group label { display: block; font-size: 14px; margin-bottom: 6px; font-weight: 500; }
-    .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 15px; outline: none; }
-    .form-group input:focus { border-color: #1a4d7a; }
-    .required { color: #e63946; }
-    .submit-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #1a4d7a, #2d6a9f); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; }
-    .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
-    .note { font-size: 12px; color: #888; text-align: center; margin-top: 16px; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: linear-gradient(135deg, #1a4d7a 0%, #2d6a9f 100%); min-height: 100vh; padding: 20px; }
+    .container { max-width: 560px; margin: 0 auto; }
+    .card { background: white; border-radius: 16px; padding: 28px 24px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); }
+    .logo { text-align: center; margin-bottom: 20px; }
+    .logo h1 { color: #1a4d7a; font-size: 24px; margin-bottom: 6px; }
+    .logo p { color: #666; font-size: 13px; }
+    .divider { height: 2px; background: linear-gradient(90deg, transparent, #1a4d7a, transparent); margin: 16px 0; }
+    .form-title { text-align: center; font-size: 17px; font-weight: 700; color: #222; margin-bottom: 6px; }
+    .form-sub { text-align: center; font-size: 12px; color: #999; margin-bottom: 24px; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-size: 14px; color: #333; margin-bottom: 6px; font-weight: 500; }
+    .form-group input, .form-group select { width: 100%; padding: 13px 14px; border: 1.5px solid #e0e0e0; border-radius: 10px; font-size: 15px; color: #333; outline: none; transition: border-color 0.2s; }
+    .form-group input:focus, .form-group select:focus { border-color: #1a4d7a; }
+    .required { color: #e63946; margin-left: 2px; }
+    .btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #1a4d7a, #2d6a9f); color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+    .btn:hover { opacity: 0.88; }
+    .btn:disabled { background: #aaa; cursor: not-allowed; }
+    .tip { text-align: center; font-size: 12px; color: #aaa; margin-top: 14px; }
+    .success-card { display: none; text-align: center; padding: 40px 20px; }
+    .success-card.show { display: block; }
+    .success-icon { font-size: 60px; margin-bottom: 16px; }
+    .success-card h2 { color: #1a4d7a; font-size: 22px; margin-bottom: 10px; }
+    .success-card p { color: #666; font-size: 14px; }
+    .form-card { transition: opacity 0.3s; }
+    .form-card.hidden { display: none; }
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1>潮州青投</h1>
-    <p>企业一站式健康体检预约服务</p>
-  </div>
   <div class="container">
-    <div class="form-card">
-      <div class="form-title">企业体检预约</div>
-      <div class="form-sub">我们将在24小时内与您联系确认预约事宜</div>
-      <form id="reservationForm" onsubmit="return submitForm(event)">
-        <div class="form-group">
-          <label>姓名 <span class="required">*</span></label>
-          <input type="text" id="name" name="name" placeholder="请输入您的姓名" required>
+    <div class="card">
+      <div class="form-card" id="formCard">
+        <div class="logo">
+          <h1>潮州青投</h1>
+          <p>企业一站式健康体检预约服务</p>
         </div>
-        <div class="form-group">
-          <label>公司名称 <span class="required">*</span></label>
-          <input type="text" id="company" name="company" placeholder="请输入公司全称" required>
-        </div>
-        <div class="form-group">
-          <label>手机号码 <span class="required">*</span></label>
-          <input type="tel" id="phone" name="phone" placeholder="请输入手机号码" required pattern="1[3-9][0-9]{9}">
-        </div>
-        <div class="form-group">
-          <label>预约服务</label>
-          <select id="service" name="service">
-            <option value="企业体检">企业体检</option>
-            <option value="VIP体检">VIP体检</option>
-            <option value="定制体检">定制体检</option>
-          </select>
-        </div>
-        <button type="submit" class="submit-btn" id="submitBtn">提交预约</button>
-        <p class="note">提交后我们的客服会第一时间致电确认</p>
-      </form>
+        <div class="divider"></div>
+        <div class="form-title">企业体检预约</div>
+        <div class="form-sub">我们的客服将在24小时内致电确认</div>
+        <form id="reservationForm" onsubmit="return handleSubmit(event)">
+          <div class="form-group">
+            <label>姓名 <span class="required">*</span></label>
+            <input type="text" id="name" name="name" placeholder="请输入您的姓名" required>
+          </div>
+          <div class="form-group">
+            <label>公司名称 <span class="required">*</span></label>
+            <input type="text" id="company" name="company" placeholder="请输入公司全称" required>
+          </div>
+          <div class="form-group">
+            <label>手机号码 <span class="required">*</span></label>
+            <input type="tel" id="phone" name="phone" placeholder="请输入11位手机号" required pattern="1[3-9][0-9]{9}">
+          </div>
+          <div class="form-group">
+            <label>预约服务</label>
+            <select id="service" name="service">
+              <option value="企业体检">企业体检</option>
+              <option value="VIP体检">VIP体检</option>
+              <option value="定制体检">定制体检</option>
+            </select>
+          </div>
+          <button type="submit" class="btn" id="submitBtn">立即预约</button>
+          <p class="tip">提交后客服会第一时间致电确认</p>
+        </form>
+      </div>
+      <div class="success-card" id="successCard">
+        <div class="success-icon">&#10004;</div>
+        <h2>预约成功！</h2>
+        <p>我们的客服会尽快与您联系确认预约详情</p>
+      </div>
     </div>
   </div>
   <script>
-    function submitForm(event) {
+    function handleSubmit(event) {
       event.preventDefault();
       var name = document.getElementById('name').value.trim();
       var company = document.getElementById('company').value.trim();
       var phone = document.getElementById('phone').value.trim();
-      var service = document.getElementById('service') ? document.getElementById('service').value : '企业体检';
+      var service = document.getElementById('service').value;
       if (!name || !company || !phone) {
         alert('请填写所有必填项');
         return false;
@@ -75,27 +92,25 @@
         return false;
       }
       var btn = document.getElementById('submitBtn');
-      if (btn) { btn.disabled = true; btn.textContent = '提交中...'; }
+      btn.disabled = true;
+      btn.textContent = '提交中...';
       var webhook = 'https://open.feishu.cn/open-apis/bot/v2/hook/8a3faff5-65f1-473e-93dc-1a8b0655e9bf';
       var now = new Date();
-      var ts = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0') + ' ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
-      var msg = '⭐ 青商H5预约
-───────────────
-὆4 姗名：' + name + '
-Ἶ2 公司：' + company + '
-὏1 手机：' + phone + '
-Ὄab 服务：' + service + '
-⏰ ' + ts;
+      var ts = [now.getFullYear(), '-', String(now.getMonth()+1).padStart(2,'0'), '-', String(now.getDate()).padStart(2,'0'), ' ', String(now.getHours()).padStart(2,'0'), ':', String(now.getMinutes()).padStart(2,'0')].join('');
+      var lines = ['&#128293; 青商H5预约', '&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;', '&#128100; 姓名：' + name, '&#127970; 公司：' + company, '&#128241; 手机：' + phone, '&#128181; 服务：' + service, '&#9200; ' + ts];
+      var msg = lines.join('\n');
       fetch(webhook, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({msg_type: 'text', content: {text: msg}})
       })
       .then(function() {
-        window.location.href = 'https://qingshang-h5-complete.zechunwu480.workers.dev/success.html';
+        document.getElementById('formCard').classList.add('hidden');
+        document.getElementById('successCard').classList.add('show');
       })
       .catch(function() {
-        window.location.href = 'https://qingshang-h5-complete.zechunwu480.workers.dev/success.html';
+        document.getElementById('formCard').classList.add('hidden');
+        document.getElementById('successCard').classList.add('show');
       });
       return false;
     }
