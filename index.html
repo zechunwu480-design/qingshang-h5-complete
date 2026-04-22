@@ -2,582 +2,103 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>潮州青投 - 企业健康体检</title>
-  <link rel="stylesheet" href="cdn/swiper-bundle.min.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>潮州青投 - 企业体检预约</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { height: 100%; overflow: hidden; font-family: 'Noto Sans SC', sans-serif; }
-    body { background: #FAFAF8; color: #1a1a1a; }
-    .swiper { width: 100%; height: 100%; }
-    .swiper-slide { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 32px; position: relative; overflow: hidden; }
-
-    /* Light background with subtle gold warmth */
-    .bg-light { position: absolute; inset: 0; z-index: 0; }
-    .bg-light::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 80% 20%, rgba(212,175,55,0.06) 0%, transparent 50%), radial-gradient(ellipse at 20% 80%, rgba(212,175,55,0.04) 0%, transparent 50%), linear-gradient(135deg, #FAFAF8 0%, #F8F5EE 50%, #FAFAF8 100%); }
-    .bg-light::after { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(212,175,55,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,55,0.03) 1px, transparent 1px); background-size: 60px 60px; }
-    .gold-line { position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, #D4AF37, #FFC000, #D4AF37, transparent); z-index: 2; }
-    .content { position: relative; z-index: 1; width: 100%; max-width: 420px; text-align: center; }
-    .section-label { font-size: 11px; color: #D4AF37; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; font-weight: 500; }
-    .section-title { font-size: 28px; font-weight: 800; margin-bottom: 40px; color: #1a1a1a; line-height: 1.3; }
-
-    /* Slide 1: Cover - warm white */
-    .slide-cover { background: linear-gradient(135deg, #FFFFFF 0%, #FDF9F0 50%, #FAFAF8 100%); }
-    .cover-title { font-size: 42px; font-weight: 900; line-height: 1.2; margin-bottom: 14px; color: #1a1a1a; }
-    .cover-title .gold { color: #D4AF37; }
-    .cover-brand { font-size: 20px; font-weight: 700; color: #1a1a1a; margin-bottom: 8px; letter-spacing: 2px; }
-    .cover-sub { font-size: 14px; color: #888; margin-bottom: 36px; }
-    .cover-divider { width: 60px; height: 2px; background: linear-gradient(90deg, transparent, #D4AF37, transparent); margin: 0 auto 32px; }
-    .cover-cta { display: inline-block; background: linear-gradient(135deg, #D4AF37, #B8942E); color: #fff; font-size: 16px; font-weight: 700; padding: 16px 40px; border-radius: 50px; text-decoration: none; box-shadow: 0 8px 30px rgba(212,175,55,0.35); }
-    .scroll-hint { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 24px; }
-    .scroll-hint span { font-size: 11px; color: #D4AF37; letter-spacing: 2px; }
-    .scroll-arrow { width: 24px; height: 24px; position: relative; }
-    .scroll-arrow::before { content: ''; position: absolute; top: 4px; left: 50%; width: 10px; height: 10px; border-right: 2px solid #D4AF37; border-bottom: 2px solid #D4AF37; transform: translateX(-50%) rotate(45deg); animation: bounceDown 1.5s ease-in-out infinite; }
-    @keyframes bounceDown { 0%,100% { top: 4px; } 50% { top: 12px; } }
-
-    /* Slide 2: Focus - light warm */
-    .slide-focus { background: linear-gradient(180deg, #FFFFFF 0%, #FDF9F0 100%); }
-    .focus-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; }
-    .focus-item { background: #fff; border: 1px solid rgba(212,175,55,0.2); border-radius: 16px; padding: 16px 12px; text-align: center; transition: all 0.3s; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
-    .focus-item:hover { border-color: #D4AF37; box-shadow: 0 4px 20px rgba(212,175,55,0.12); }
-    .focus-icon { font-size: 24px; margin-bottom: 6px; }
-    .focus-label { font-size: 13px; font-weight: 600; color: #1a1a1a; margin-bottom: 3px; }
-    .focus-desc { font-size: 10px; color: #888; }
-    .focus-item-wide { background: linear-gradient(135deg, #FFF9E6, #FFFDF0); border: 1px solid rgba(212,175,55,0.4); grid-column: 1 / -1; padding: 20px 18px; display: flex; align-items: center; gap: 16px; text-align: left; border-radius: 16px; box-shadow: 0 2px 12px rgba(212,175,55,0.08); }
-    .focus-item-wide .focus-icon { font-size: 30px; margin-bottom: 0; margin-right: 6px; }
-    .focus-item-wide .focus-label { font-size: 17px; color: #B8942E; }
-    .focus-item-wide .focus-desc { font-size: 12px; color: #888; }
-    .focus-item-wide .focus-text-group { flex: 1; }
-    .focus-center { background: #FFF9E6; border: 1px solid rgba(212,175,55,0.3); grid-column: 1 / -1; padding: 18px; border-radius: 16px; }
-    .focus-center .focus-label { font-size: 16px; color: #B8942E; }
-    .focus-center .focus-desc { color: #888; }
-
-    /* Slide 3: Problems - slightly darker for contrast */
-    .slide-problems { background: linear-gradient(180deg, #F5F0E8 0%, #FDF9F0 100%); }
-    .problems-list { display: flex; flex-direction: column; gap: 12px; width: 100%; }
-    .problem-item { display: flex; align-items: center; gap: 14px; background: #fff; border: 1px solid rgba(0,0,0,0.06); border-radius: 14px; padding: 14px 16px; text-align: left; box-shadow: 0 1px 6px rgba(0,0,0,0.04); }
-    .problem-num { width: 26px; height: 26px; min-width: 26px; background: rgba(220,38,38,0.08); border: 1px solid rgba(220,38,38,0.2); color: #dc2626; font-size: 11px; font-weight: 700; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-    .problem-text { font-size: 13px; color: #333; line-height: 1.4; }
-    .problems-footer { margin-top: 28px; }
-    .problems-question { font-size: 20px; font-weight: 800; color: #dc2626; margin-bottom: 6px; }
-    .problems-hint { font-size: 12px; color: #aaa; }
-
-    /* Slide 4: Solution - light */
-    .slide-solution { background: linear-gradient(180deg, #FDF9F0 0%, #FFFFFF 100%); }
-    .solution-tabs { display: flex; gap: 8px; margin-bottom: 28px; width: 100%; }
-    .sol-tab { flex: 1; padding: 11px 6px; background: #fff; border: 1px solid rgba(0,0,0,0.08); border-radius: 12px; font-size: 12px; font-weight: 600; color: #888; cursor: pointer; transition: all 0.3s; text-align: center; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
-    .sol-tab.active { background: #FFF9E6; border-color: #D4AF37; color: #B8942E; }
-    .sol-tab span { display: block; font-size: 9px; font-weight: 400; opacity: 0.6; margin-top: 2px; }
-    .sol-content { background: #fff; border: 1px solid rgba(0,0,0,0.06); border-radius: 18px; padding: 24px 20px; width: 100%; text-align: left; display: none; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
-    .sol-content.active { display: block; }
-    .sol-title { font-size: 17px; font-weight: 700; color: #1a1a1a; margin-bottom: 18px; }
-    .sol-items { display: flex; flex-direction: column; gap: 12px; }
-    .sol-item { display: flex; align-items: flex-start; gap: 12px; }
-    .sol-dot { width: 7px; height: 7px; min-width: 7px; border-radius: 50%; margin-top: 6px; }
-    .sol-text { font-size: 13px; color: #444; line-height: 1.5; }
-
-    /* Slide 5: Benefits - light gold tint */
-    .slide-benefits { background: linear-gradient(180deg, #FFFFFF 0%, #FFFDF0 100%); }
-    .benefits-list { display: flex; flex-direction: column; gap: 14px; width: 100%; }
-    .benefit-item { display: flex; align-items: center; gap: 16px; background: #FFF9E6; border: 1px solid rgba(212,175,55,0.15); border-radius: 16px; padding: 16px 18px; text-align: left; }
-    .benefit-icon { width: 42px; height: 42px; min-width: 42px; background: #FFF0C0; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-    .benefit-text { font-size: 14px; color: #333; font-weight: 500; }
-
-    /* Slide 6: Report Cover - white card on light bg */
-    .slide-report-cover { background: linear-gradient(135deg, #FFFFFF 0%, #FDF9F0 100%); }
-    .report-card { background: #fff; border-radius: 16px; padding: 36px 28px; width: 100%; max-width: 380px; box-shadow: 0 8px 40px rgba(0,0,0,0.08); border: 1px solid rgba(212,175,55,0.15); }
-    .report-header-line { width: 40px; height: 3px; background: #D4AF37; margin-bottom: 20px; }
-    .report-main-title { font-size: 22px; font-weight: 900; color: #1a1a1a; margin-bottom: 6px; text-align: left; }
-    .report-sub-title { font-size: 14px; color: #888; text-align: left; margin-bottom: 24px; }
-    .report-divider { border: none; border-top: 1px solid rgba(0,0,0,0.08); margin-bottom: 20px; }
-    .report-meta { display: flex; flex-direction: column; gap: 8px; text-align: left; }
-    .report-meta-item { display: flex; gap: 8px; font-size: 12px; }
-    .report-meta-label { color: #888; min-width: 70px; }
-    .report-meta-value { color: #333; font-weight: 500; }
-    .report-footer { margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(0,0,0,0.08); display: flex; justify-content: space-between; align-items: center; }
-    .report-company { font-size: 11px; color: #888; text-align: left; }
-    .report-stamp { width: 60px; height: 60px; border: 2px solid #D4AF37; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #D4AF37; font-size: 9px; font-weight: 700; text-align: center; line-height: 1.2; }
-
-    /* Slide 7: Diagnosis - light with dark text */
-    .slide-diagnosis { background: linear-gradient(180deg, #FDF9F0 0%, #FFFFFF 100%); }
-    .diag-card { background: #fff; border: 1px solid rgba(0,0,0,0.06); border-radius: 16px; overflow: hidden; width: 100%; box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
-    .diag-header { background: #FFF9E6; padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(212,175,55,0.1); }
-    .diag-header-title { font-size: 16px; font-weight: 700; color: #1a1a1a; }
-    .diag-score { background: #FFF0C0; border: 1px solid #D4AF37; border-radius: 10px; padding: 6px 14px; text-align: center; }
-    .diag-score-num { font-size: 28px; font-weight: 900; color: #B8942E; line-height: 1; }
-    .diag-score-label { font-size: 9px; color: #B8942E; opacity: 0.7; margin-top: 2px; }
-    .diag-section { padding: 16px 20px; border-bottom: 1px solid rgba(0,0,0,0.04); }
-    .diag-section-title { font-size: 12px; color: #aaa; margin-bottom: 10px; }
-    .diag-bars { display: flex; flex-direction: column; gap: 8px; }
-    .diag-bar-row { display: flex; align-items: center; gap: 10px; }
-    .diag-bar-label { font-size: 11px; color: #666; width: 70px; text-align: left; }
-    .diag-bar-track { flex: 1; height: 8px; background: rgba(0,0,0,0.04); border-radius: 4px; overflow: hidden; }
-    .diag-bar-fill { height: 100%; border-radius: 4px; }
-    .diag-bar-val { font-size: 11px; font-weight: 700; width: 30px; text-align: right; }
-    .diag-grade { display: flex; align-items: center; gap: 12px; padding: 16px 20px; }
-    .diag-grade-badge { background: #FFF0C0; border: 1px solid #D4AF37; border-radius: 8px; padding: 8px 14px; }
-    .diag-grade-label { font-size: 10px; color: #888; }
-    .diag-grade-val { font-size: 18px; font-weight: 900; color: #B8942E; }
-    .diag-grade-text { font-size: 12px; color: #666; flex: 1; }
-    .diag-suggest { padding: 14px 20px; background: #FFF9E6; border-top: 1px solid rgba(212,175,55,0.1); }
-    .diag-suggest-title { font-size: 11px; color: #B8942E; margin-bottom: 6px; }
-    .diag-suggest-text { font-size: 12px; color: #666; line-height: 1.5; }
-
-    /* Slide 8: Form - light */
-    .slide-form { background: linear-gradient(180deg, #FFFFFF 0%, #FDF9F0 100%); }
-    .form-card { background: #fff; border: 1px solid rgba(212,175,55,0.2); border-radius: 20px; padding: 28px 24px; width: 100%; max-width: 400px; box-shadow: 0 4px 24px rgba(0,0,0,0.05); }
-    .form-title { font-size: 18px; font-weight: 700; color: #1a1a1a; margin-bottom: 4px; text-align: center; }
-    .form-sub { font-size: 12px; color: #888; margin-bottom: 22px; text-align: center; }
-    .form-group { margin-bottom: 14px; }
-    .form-label { font-size: 12px; color: #888; margin-bottom: 6px; display: block; }
-    .form-input { width: 100%; background: #FAFAF8; border: 1px solid rgba(0,0,0,0.1); border-radius: 10px; padding: 12px 14px; color: #1a1a1a; font-size: 14px; font-family: inherit; outline: none; transition: border-color 0.3s; box-sizing: border-box; -webkit-appearance: none; }
-    .form-input:focus { border-color: #D4AF37; background: #FFF9E6; }
-    .form-input::placeholder { color: #bbb; }
-    .form-select { width: 100%; background: #FAFAF8; border: 1px solid rgba(0,0,0,0.1); border-radius: 10px; padding: 12px 14px; color: #1a1a1a; font-size: 14px; font-family: inherit; outline: none; appearance: none; -webkit-appearance: none; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23D4AF37' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; }
-    .form-select option { background: #fff; color: #1a1a1a; }
-    .form-submit { width: 100%; background: linear-gradient(135deg, #D4AF37, #B8942E); color: #fff; font-size: 16px; font-weight: 700; border: none; border-radius: 12px; padding: 16px; cursor: pointer; margin-top: 6px; font-family: inherit; transition: opacity 0.3s; }
-    .form-submit:hover { opacity: 0.88; }
-    .form-submit:disabled { opacity: 0.45; cursor: not-allowed; }
-    .form-note { font-size: 10px; color: #bbb; text-align: center; margin-top: 10px; }
-    .form-success { display: none; text-align: center; padding: 24px 0; }
-    .form-success-icon { font-size: 52px; margin-bottom: 12px; }
-    .form-success-title { font-size: 17px; font-weight: 700; color: #B8942E; margin-bottom: 6px; }
-    .form-success-hint { font-size: 12px; color: #888; }
-
-    /* Pagination */
-    .swiper-pagination { position: relative; margin-top: 18px; }
-    .swiper-pagination-bullet { width: 6px; height: 6px; background: rgba(0,0,0,0.15); opacity: 1; }
-    .swiper-pagination-bullet-active { background: #D4AF37; width: 20px; border-radius: 3px; }
-
-    /* Animations */
-    .fade-up { opacity: 0; transform: translateY(28px); transition: all 0.6s ease; }
-    .swiper-slide-active .fade-up { opacity: 1; transform: translateY(0); }
-    .delay-1 { transition-delay: 0.1s; }
-    .delay-2 { transition-delay: 0.2s; }
-    .delay-3 { transition-delay: 0.3s; }
-    .delay-4 { transition-delay: 0.4s; }
-    .delay-5 { transition-delay: 0.5s; }
-</style>
+    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #f5f5f5; }
+    .header { background: linear-gradient(135deg, #1a4d7a, #2d6a9f); color: white; padding: 20px; text-align: center; }
+    .header h1 { font-size: 22px; margin-bottom: 8px; }
+    .header p { font-size: 14px; opacity: 0.9; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .form-card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+    .form-title { font-size: 18px; font-weight: 700; text-align: center; margin-bottom: 4px; }
+    .form-sub { font-size: 12px; color: #888; text-align: center; margin-bottom: 22px; }
+    .form-group { margin-bottom: 16px; }
+    .form-group label { display: block; font-size: 14px; margin-bottom: 6px; font-weight: 500; }
+    .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 15px; outline: none; }
+    .form-group input:focus { border-color: #1a4d7a; }
+    .required { color: #e63946; }
+    .submit-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #1a4d7a, #2d6a9f); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; }
+    .submit-btn:disabled { background: #ccc; cursor: not-allowed; }
+    .note { font-size: 12px; color: #888; text-align: center; margin-top: 16px; }
+  </style>
 </head>
 <body>
-  <div class="swiper">
-    <div class="swiper-wrapper">
-
-      <!-- Slide 1: Cover -->
-      <div class="swiper-slide slide-cover">
-        <div class="bg-light"></div>
-        <div class="bg-grid"></div>
-        <div class="gold-line"></div>
-        <div class="content">
-          <div class="section-label fade-up" style="border:1px solid rgba(0,212,170,0.35);background:rgba(0,212,170,0.08);color:#00d4aa;border-radius:20px;padding:6px 18px;font-size:12px;letter-spacing:2px;margin-bottom:24px;display:inline-block;">企业健康体检</div>
-          <div class="cover-title fade-up delay-1">你的公司<br><span class="gold">真的健康吗？</span></div>
-          <div class="cover-brand fade-up delay-2">潮州青投</div>
-          <div class="cover-sub fade-up delay-2">一次体检，看清企业所有问题</div>
-          <div class="cover-divider fade-up delay-3"></div>
-          <a href="#form" class="cover-cta fade-up delay-4">立即预约体检</a>
-          <div class="scroll-hint fade-up delay-5">
-            <div class="scroll-arrow"></div>
-            <span>向下滑动</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Slide 2: Focus -->
-      <div class="swiper-slide slide-focus">
-        <div class="bg-light"></div>
-        <div class="bg-grid"></div>
-        <div class="gold-line"></div>
-        <div class="content">
-          <div class="section-label fade-up">企业健康雷达</div>
-          <div class="section-title fade-up delay-1">六大核心关注点</div>
-          <div class="focus-grid">
-            <div class="focus-item-wide fade-up delay-2">
-              <div class="focus-icon">&#127970;</div>
-              <div class="focus-text-group">
-                <div class="focus-label">融资</div>
-                <div class="focus-desc">资金通道 · 银行对接 · 抵押担保</div>
-              </div>
-            </div>
-            <div class="focus-item fade-up delay-2">
-              <div class="focus-icon">&#127919;</div>
-              <div class="focus-label">经营决策</div>
-              <div class="focus-desc">战略决断</div>
-            </div>
-            <div class="focus-item fade-up delay-2">
-              <div class="focus-icon">&#128176;</div>
-              <div class="focus-label">现金流</div>
-              <div class="focus-desc">资金健康</div>
-            </div>
-            <div class="focus-item fade-up delay-3">
-              <div class="focus-icon">&#128202;</div>
-              <div class="focus-label">利润</div>
-              <div class="focus-desc">财税优化</div>
-            </div>
-            <div class="focus-item fade-up delay-3">
-              <div class="focus-icon">&#9878;</div>
-              <div class="focus-label">合规</div>
-              <div class="focus-desc">法务风控</div>
-            </div>
-            <div class="focus-center fade-up delay-4">
-              <div class="focus-icon">&#128269;</div>
-              <div class="focus-label">全方位企业体检</div>
-              <div class="focus-desc">找出隐性风险 · 定位真实问题</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Slide 3: Problems -->
-      <div class="swiper-slide slide-problems">
-        <div class="bg-light"></div>
-        <div class="bg-grid"></div>
-        <div class="gold-line"></div>
-        <div class="content">
-          <div class="section-label fade-up">问题诊断</div>
-          <div class="section-title fade-up delay-1">这些问题正在困扰企业老板</div>
-          <div class="problems-list">
-            <div class="problem-item fade-up delay-2">
-              <div class="problem-num">1</div>
-              <div class="problem-text">资金周转紧张，却找不到原因</div>
-            </div>
-            <div class="problem-item fade-up delay-2">
-              <div class="problem-num">2</div>
-              <div class="problem-text">明明有利润，账上却没钱</div>
-            </div>
-            <div class="problem-item fade-up delay-3">
-              <div class="problem-num">3</div>
-              <div class="problem-text">税负越来越高，结构说不清</div>
-            </div>
-            <div class="problem-item fade-up delay-3">
-              <div class="problem-num">4</div>
-              <div class="problem-text">融资屡屡受阻，难以突破</div>
-            </div>
-            <div class="problem-item fade-up delay-4">
-              <div class="problem-num">5</div>
-              <div class="problem-text">合同 / 人事存在隐形风险</div>
-            </div>
-            <div class="problem-item fade-up delay-4">
-              <div class="problem-num">6</div>
-              <div class="problem-text">财务数据混乱，无法支撑决策</div>
-            </div>
-          </div>
-          <div class="problems-footer fade-up delay-5">
-            <div class="problems-question">你中了几个？</div>
-            <div class="problems-hint">越早发现，越小代价</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Slide 4: Solution -->
-      <div class="swiper-slide slide-solution">
-        <div class="bg-light"></div>
-        <div class="bg-grid"></div>
-        <div class="gold-line"></div>
-        <div class="content">
-          <div class="section-label fade-up">解决方案</div>
-          <div class="section-title fade-up delay-1">一站式企业优化方案</div>
-          <div class="solution-tabs fade-up delay-2">
-            <div class="sol-tab active" onclick="showSol('finance')">金融<span>FINANCE</span></div>
-            <div class="sol-tab" onclick="showSol('tax')">财税<span>TAX</span></div>
-            <div class="sol-tab" onclick="showSol('legal')">法务<span>LEGAL</span></div>
-          </div>
-          <div id="sol-finance" class="sol-content active fade-up delay-3">
-            <div class="sol-title">&#128176; 金融优化 Finance</div>
-            <div class="sol-items">
-              <div class="sol-item"><div class="sol-dot" style="background:#D4AF37"></div><div class="sol-text">融资方案设计 — 根据企业实际情况定制融资路径</div></div>
-              <div class="sol-item"><div class="sol-dot" style="background:#D4AF37"></div><div class="sol-text">银行通道对接 — 直连多家银行，提升通过率</div></div>
-              <div class="sol-item"><div class="sol-dot" style="background:#D4AF37"></div><div class="sol-text">过桥垫资支持 — 短期资金应急，快速到位</div></div>
-              <div class="sol-item"><div class="sol-dot" style="background:#D4AF37"></div><div class="sol-text">供应链金融方案 — 盘活应收账款，优化现金流</div></div>
-            </div>
-          </div>
-          <div id="sol-tax" class="sol-content fade-up delay-3">
-            <div class="sol-title">&#128202; 财税优化 Tax</div>
-            <div class="sol-items">
-              <div class="sol-item"><div class="sol-dot" style="background:#4DB8FF"></div><div class="sol-text">税务结构梳理 — 合法合规，优化税负</div></div>
-              <div class="sol-item"><div class="sol-dot" style="background:#4DB8FF"></div><div class="sol-text">利润与现金流优化 — 让利润真正落袋</div></div>
-              <div class="sol-item"><div class="sol-dot" style="background:#4DB8FF"></div><div class="sol-text">税负降低方案 — 合规前提下降低税负率</div></div>
-              <div class="sol-item"><div class="sol-dot" style="background:#4DB8FF"></div><div class="sol-text">财务体系规范 — 账目清晰，决策有据</div></div>
-            </div>
-          </div>
-          <div id="sol-legal" class="sol-content fade-up delay-3">
-            <div class="sol-title">&#9878; 法务合规 Legal</div>
-            <div class="sol-items">
-              <div class="sol-item"><div class="sol-dot" style="background:#FFB800"></div><div class="sol-text">合同风险排查 — 找出条款隐患，提前规避</div></div>
-              <div class="sol-item"><div class="sol-dot" style="background:#FFB800"></div><div class="sol-text">人事合规优化 — 劳动法规遵从，降低纠纷</div></div>
-              <div class="sol-item"><div class="sol-dot" style="background:#FFB800"></div><div class="sol-text">债务结构梳理 — 优化债务组合，减轻压力</div></div>
-              <div class="sol-item"><div class="sol-dot" style="background:#FFB800"></div><div class="sol-text">经营风险防控 — 系统性风险识别与应对</div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Slide 5: Benefits -->
-      <div class="swiper-slide slide-benefits">
-        <div class="bg-light"></div>
-        <div class="bg-grid"></div>
-        <div class="gold-line"></div>
-        <div class="content">
-          <div class="section-label fade-up">预期收益</div>
-          <div class="section-title fade-up delay-1">通过体检，你将获得</div>
-          <div class="benefits-list">
-            <div class="benefit-item fade-up delay-2">
-              <div class="benefit-icon">&#128200;</div>
-              <div class="benefit-text">看清企业真实利润，账目不再糊涂</div>
-            </div>
-            <div class="benefit-item fade-up delay-3">
-              <div class="benefit-icon">&#128269;</div>
-              <div class="benefit-text">找到资金问题根源，对症下药</div>
-            </div>
-            <div class="benefit-item fade-up delay-4">
-              <div class="benefit-icon">&#127970;</div>
-              <div class="benefit-text">提升融资成功率，突破资金瓶颈</div>
-            </div>
-            <div class="benefit-item fade-up delay-5">
-              <div class="benefit-icon">&#128737;</div>
-              <div class="benefit-text">降低潜在经营风险，行稳致远</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Slide 6: Report Cover -->
-      <div class="swiper-slide slide-report-cover">
-        <div class="bg-light"></div>
-        <div class="bg-grid"></div>
-        <div class="gold-line"></div>
-        <div class="content">
-          <div class="section-label fade-up" style="color:#D4AF37;">企业体检报告</div>
-          <div class="section-title fade-up delay-1">量身定制的<br>评估报告</div>
-          <div class="report-card fade-up delay-2">
-            <div class="report-header-line"></div>
-            <div class="report-main-title">企业融资全面评估报告</div>
-            <div class="report-sub-title">Enterprise Financing Assessment Report</div>
-            <hr class="report-divider">
-            <div class="report-meta">
-              <div class="report-meta-item">
-                <span class="report-meta-label">报告编号</span>
-                <span class="report-meta-value">20260415</span>
-              </div>
-              <div class="report-meta-item">
-                <span class="report-meta-label">评估日期</span>
-                <span class="report-meta-value">2026年4月15日</span>
-              </div>
-              <div class="report-meta-item">
-                <span class="report-meta-label">客户名称</span>
-                <span class="report-meta-value">XXX</span>
-              </div>
-            </div>
-            <div class="report-footer">
-              <div class="report-company">潮州市青商投资服务有限公司</div>
-              <div class="report-stamp">青投<br>评估</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Slide 7: Diagnosis -->
-      <div class="swiper-slide slide-diagnosis">
-        <div class="bg-light"></div>
-        <div class="bg-grid"></div>
-        <div class="gold-line"></div>
-        <div class="content">
-          <div class="section-label fade-up">诊断结论</div>
-          <div class="section-title fade-up delay-1">综合评分</div>
-          <div class="diag-card fade-up delay-2">
-            <div class="diag-header">
-              <div class="diag-header-title">企业融资全面评估报告</div>
-              <div class="diag-score">
-                <div class="diag-score-num">85</div>
-                <div class="diag-score-label">综合评分</div>
-              </div>
-            </div>
-            <div class="diag-section">
-              <div class="diag-section-title">第八部分 / 8.1 评分记录表</div>
-              <div class="diag-bars">
-                <div class="diag-bar-row">
-                  <div class="diag-bar-label">信用基础</div>
-                  <div class="diag-bar-track"><div class="diag-bar-fill" style="width:80%; background:#FFB800;"></div></div>
-                  <div class="diag-bar-val" style="color:#FFB800;">20</div>
-                </div>
-                <div class="diag-bar-row">
-                  <div class="diag-bar-label">资产负债</div>
-                  <div class="diag-bar-track"><div class="diag-bar-fill" style="width:72%; background:#FFB800;"></div></div>
-                  <div class="diag-bar-val" style="color:#FFB800;">18</div>
-                </div>
-                <div class="diag-bar-row">
-                  <div class="diag-bar-label">还款来源</div>
-                  <div class="diag-bar-track"><div class="diag-bar-fill" style="width:88%; background:#4ADE80;"></div></div>
-                  <div class="diag-bar-val" style="color:#4ADE80;">22</div>
-                </div>
-                <div class="diag-bar-row">
-                  <div class="diag-bar-label">担保物质量</div>
-                  <div class="diag-bar-track"><div class="diag-bar-fill" style="width:100%; background:#4ADE80;"></div></div>
-                  <div class="diag-bar-val" style="color:#4ADE80;">25</div>
-                </div>
-              </div>
-            </div>
-            <div class="diag-grade">
-              <div class="diag-grade-badge">
-                <div class="diag-grade-label">综合评级</div>
-                <div class="diag-grade-val">A</div>
-              </div>
-              <div class="diag-grade-text">优质 · 风险低<br>建议信用贷款或抵押贷款</div>
-            </div>
-            <div class="diag-suggest">
-              <div class="diag-suggest-title">&#128161; 推荐方案</div>
-              <div class="diag-suggest-text">信用贷款 + 抵押 | 可行性最高<br>企业整体资质优良，建议优先选择信用贷款，必要时可配合抵押提升额度。</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Slide 8: Form -->
-      <div class="swiper-slide slide-form" id="form">
-        <div class="bg-light"></div>
-        <div class="bg-grid"></div>
-        <div class="gold-line"></div>
-        <div class="content">
-          <div class="section-label fade-up">预约体检</div>
-          <div class="section-title fade-up delay-1">填写预约信息</div>
-          <div class="form-card fade-up delay-2">
-            <form id="reservationForm" action="/submit.php" method="POST" onsubmit="return handleSubmit(event)">
-              
-              
-              
-              
-              <div class="form-title">企业体检预约</div>
-              <div class="form-sub">我们将在24小时内与您联系</div>
-              <div class="form-group">
-                <label class="form-label">姓名 *</label>
-                <input class="form-input" type="text" name="姓名" placeholder="请输入您的姓名" maxlength="20" required>
-              </div>
-              <div class="form-group">
-                <label class="form-label">公司名称 *</label>
-                <input class="form-input" type="text" name="公司名称" placeholder="请输入公司全称" maxlength="50" required>
-              </div>
-              <div class="form-group">
-                <label class="form-label">联系电话 *</label>
-                <input class="form-input" type="tel" name="联系电话" placeholder="请输入手机号码" maxlength="11" required>
-              </div>
-              <div class="form-group">
-                <label class="form-label">融资需求</label>
-                <select class="form-select" name="融资需求">
-                  <option value="">请选择（选填）</option>
-                  <option value="信用贷款">信用贷款</option>
-                  <option value="抵押贷款">抵押贷款</option>
-                  <option value="抵押+担保">抵押+担保</option>
-                  <option value="过桥垫资">过桥垫资</option>
-                  <option value="供应链金融">供应链金融</option>
-                  <option value="其他">其他</option>
-                </select>
-              </div>
-              <button class="form-submit" id="submitBtn" type="submit">提交预约</button>
-              <div class="form-note">信息仅用于预约联系，绝不对外泄露</div>
-              <div class="form-success" id="formSuccess">
-                <div class="form-success-icon">&#9989;</div>
-                <div class="form-success-title">提交成功！</div>
-                <div class="form-success-hint">我们将在24小时内与您联系</div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <div class="swiper-pagination"></div>
+  <div class="header">
+    <h1>潮州青投</h1>
+    <p>企业一站式健康体检预约服务</p>
   </div>
-
-  <script src="cdn/swiper-bundle.min.js"></script>
+  <div class="container">
+    <div class="form-card">
+      <div class="form-title">企业体检预约</div>
+      <div class="form-sub">我们将在24小时内与您联系确认预约事宜</div>
+      <form id="reservationForm" onsubmit="return submitForm(event)">
+        <div class="form-group">
+          <label>姓名 <span class="required">*</span></label>
+          <input type="text" id="name" name="name" placeholder="请输入您的姓名" required>
+        </div>
+        <div class="form-group">
+          <label>公司名称 <span class="required">*</span></label>
+          <input type="text" id="company" name="company" placeholder="请输入公司全称" required>
+        </div>
+        <div class="form-group">
+          <label>手机号码 <span class="required">*</span></label>
+          <input type="tel" id="phone" name="phone" placeholder="请输入手机号码" required pattern="1[3-9][0-9]{9}">
+        </div>
+        <div class="form-group">
+          <label>预约服务</label>
+          <select id="service" name="service">
+            <option value="企业体检">企业体检</option>
+            <option value="VIP体检">VIP体检</option>
+            <option value="定制体检">定制体检</option>
+          </select>
+        </div>
+        <button type="submit" class="submit-btn" id="submitBtn">提交预约</button>
+        <p class="note">提交后我们的客服会第一时间致电确认</p>
+      </form>
+    </div>
+  </div>
   <script>
-    const swiper = new Swiper('.swiper', {
-      direction: 'vertical',
-      pagination: { el: '.swiper-pagination', clickable: true },
-      on: {
-        slideChange: function() {
-          const active = this.slides[this.activeIndex];
-          active.querySelectorAll('.fade-up').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(28px)';
-            setTimeout(() => { el.style.opacity = ''; el.style.transform = ''; }, 50);
-          });
-        }
-      }
-    });
-
-    function showSol(type) {
-      document.querySelectorAll('.sol-tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.sol-content').forEach(c => c.classList.remove('active'));
-      event.target.closest('.sol-tab').classList.add('active');
-      document.getElementById('sol-' + type).classList.add('active');
-    }
-
-function handleSubmit(event) {
+    function submitForm(event) {
       event.preventDefault();
-      var nameEl = document.getElementById("name");
-      var companyEl = document.getElementById("company");
-      var phoneEl = document.getElementById("phone");
-      var name = nameEl ? nameEl.value.trim() : "";
-      var company = companyEl ? companyEl.value.trim() : "";
-      var phone = phoneEl ? phoneEl.value.trim() : "";
+      var name = document.getElementById('name').value.trim();
+      var company = document.getElementById('company').value.trim();
+      var phone = document.getElementById('phone').value.trim();
+      var service = document.getElementById('service') ? document.getElementById('service').value : '企业体检';
       if (!name || !company || !phone) {
-        alert("\u8bf7\u586b\u5199\u6240\u6709\u5fc5\u586b\u9879");
+        alert('请填写所有必填项');
         return false;
       }
-      if (!/^1[3-9]\d{9}$/.test(phone)) {
-        alert("\u8bf7\u586b\u5199\u6b63\u786e\u7684\u624b\u673a\u53f7");
-        return false;
-      }
-      var btn = document.getElementById("submitBtn");
-      if (btn) { btn.disabled = true; btn.textContent = "\u63d0\u4ea4\u4e2d..."; }
-
-      var form = document.getElementById("reservationForm");
-      var formData = new FormData(form);
-
-      fetch("/submit.php", {
-        method: "POST",
-        body: formData,
-      })
-      .then(function(response) { return response.json(); })
-      .then(function(data) {
-        if (data.code === 200) {
-          window.location.href = "/success.html";
-        } else {
-          alert(data.msg || "\u63d0\u4ea4\u5931\u8d25\uff0c\u8bf7\u7a0d\u540e\u91cd\u8bd5");
-          if (btn) { btn.disabled = false; btn.textContent = "\u63d0\u4ea4\u9884\u7ea6"; }
-        }
-      })
-      .catch(function() {
-        alert("\u7f51\u7edc\u9519\u8bef\uff0c\u8bf7\u7a0d\u540e\u91cd\u8bd5");
-        if (btn) { btn.disabled = false; btn.textContent = "\u63d0\u4ea4\u9884\u7ea6"; }
-      });
-
-      return false;
-    }
-      }
-      if (!/^1[3-9]\d{9}$/.test(phone)) {
+      if (!/^1[3-9][0-9]{9}$/.test(phone)) {
         alert('请填写正确的手机号');
         return false;
       }
-      const btn = document.getElementById('submitBtn');
-      btn.disabled = true;
-      btn.textContent = '提交中...';
-
-      // 推送到飞书群
-      var message = "=?青商H5表单提交=\n=?姓名：" + name + "\n=?公司：" + company + "\n=?手机：" + phone;
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'https://open.feishu.cn/open-apis/bot/v2/hook/8a3faff5-65f1-473e-93dc-1a8b0655e9bf', true);
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.send(JSON.stringify({msg_type: 'text', content: {text: message}}));
-
-      // 显示成功
-      document.getElementById('formSuccess').style.display = 'block';
-      document.querySelector('.form-title').style.display = 'none';
-      document.querySelector('.form-sub').style.display = 'none';
-      document.querySelectorAll('.form-group').forEach(function(g){ g.style.display = 'none'; });
-      btn.style.display = 'none';
-      document.querySelector('.form-note').style.display = 'none';
+      var btn = document.getElementById('submitBtn');
+      if (btn) { btn.disabled = true; btn.textContent = '提交中...'; }
+      var webhook = 'https://open.feishu.cn/open-apis/bot/v2/hook/8a3faff5-65f1-473e-93dc-1a8b0655e9bf';
+      var now = new Date();
+      var ts = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0') + ' ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+      var msg = '⭐ 青商H5预约
+───────────────
+὆4 姗名：' + name + '
+Ἶ2 公司：' + company + '
+὏1 手机：' + phone + '
+Ὄab 服务：' + service + '
+⏰ ' + ts;
+      fetch(webhook, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({msg_type: 'text', content: {text: msg}})
+      })
+      .then(function() {
+        window.location.href = 'https://qingshang-h5-complete.zechunwu480.workers.dev/success.html';
+      })
+      .catch(function() {
+        window.location.href = 'https://qingshang-h5-complete.zechunwu480.workers.dev/success.html';
+      });
       return false;
-    }</script>
+    }
+  </script>
 </body>
 </html>
