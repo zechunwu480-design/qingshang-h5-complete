@@ -84,13 +84,12 @@
       var now = new Date();
       var ts = [now.getFullYear(), '-', String(now.getMonth()+1).padStart(2,'0'), '-', String(now.getDate()).padStart(2,'0'), ' ', String(now.getHours()).padStart(2,'0'), ':', String(now.getMinutes()).padStart(2,'0')].join('');
       var lines = ['🔥 青商H5预约', '━━━━━━━━━━', '👤 姓名：' + name, '🏢 公司：' + company, '📱 手机：' + phone, '💰 服务：' + service, '⏰ ' + ts];
-      var msg = lines.join('
-');
+      var msg = lines.join('\n');
       var xhr = new XMLHttpRequest();
       xhr.open('POST', webhook, true);
       xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.onerror = function() { window.location.href = '/success.html'; };
-      xhr.onload = function() { window.location.href = '/success.html'; };
+      xhr.onerror = function() { window.location.href = 'success.html'; };
+      xhr.onload = function() { window.location.href = 'success.html'; };
       xhr.send(JSON.stringify({msg_type: 'text', content: {text: msg}}));
       return false;
     }
