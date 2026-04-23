@@ -24,56 +24,42 @@
     .btn:hover { opacity: 0.88; }
     .btn:disabled { background: #aaa; cursor: not-allowed; }
     .tip { text-align: center; font-size: 12px; color: #aaa; margin-top: 14px; }
-    .success-card { display: none; text-align: center; padding: 40px 20px; }
-    .success-card.show { display: block; }
-    .success-icon { font-size: 60px; margin-bottom: 16px; }
-    .success-card h2 { color: #1a4d7a; font-size: 22px; margin-bottom: 10px; }
-    .success-card p { color: #666; font-size: 14px; }
-    .form-card { transition: opacity 0.3s; }
-    .form-card.hidden { display: none; }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="card">
-      <div class="form-card" id="formCard">
-        <div class="logo">
-          <h1>潮州青投</h1>
-          <p>企业一站式健康体检预约服务</p>
+      <div class="logo">
+        <h1>潮州青投</h1>
+        <p>企业一站式健康体检预约服务</p>
+      </div>
+      <div class="divider"></div>
+      <div class="form-title">企业体检预约</div>
+      <div class="form-sub">我们的客服将在24小时内致电确认</div>
+      <form id="reservationForm" onsubmit="return handleSubmit(event)">
+        <div class="form-group">
+          <label>姓名 <span class="required">*</span></label>
+          <input type="text" id="name" name="name" placeholder="请输入您的姓名" required>
         </div>
-        <div class="divider"></div>
-        <div class="form-title">企业体检预约</div>
-        <div class="form-sub">我们的客服将在24小时内致电确认</div>
-        <form id="reservationForm" onsubmit="return handleSubmit(event)">
-          <div class="form-group">
-            <label>姓名 <span class="required">*</span></label>
-            <input type="text" id="name" name="name" placeholder="请输入您的姓名" required>
-          </div>
-          <div class="form-group">
-            <label>公司名称 <span class="required">*</span></label>
-            <input type="text" id="company" name="company" placeholder="请输入公司全称" required>
-          </div>
-          <div class="form-group">
-            <label>手机号码 <span class="required">*</span></label>
-            <input type="tel" id="phone" name="phone" placeholder="请输入11位手机号" required pattern="1[3-9][0-9]{9}">
-          </div>
-          <div class="form-group">
-            <label>预约服务</label>
-            <select id="service" name="service">
-              <option value="企业体检">企业体检</option>
-              <option value="VIP体检">VIP体检</option>
-              <option value="定制体检">定制体检</option>
-            </select>
-          </div>
-          <button type="submit" class="btn" id="submitBtn">立即预约</button>
-          <p class="tip">提交后客服会第一时间致电确认</p>
-        </form>
-      </div>
-      <div class="success-card" id="successCard">
-        <div class="success-icon">&#10004;</div>
-        <h2>预约成功！</h2>
-        <p>我们的客服会尽快与您联系确认预约详情</p>
-      </div>
+        <div class="form-group">
+          <label>公司名称 <span class="required">*</span></label>
+          <input type="text" id="company" name="company" placeholder="请输入公司全称" required>
+        </div>
+        <div class="form-group">
+          <label>手机号码 <span class="required">*</span></label>
+          <input type="tel" id="phone" name="phone" placeholder="请输入11位手机号" required pattern="1[3-9][0-9]{9}">
+        </div>
+        <div class="form-group">
+          <label>预约服务</label>
+          <select id="service" name="service">
+            <option value="企业体检">企业体检</option>
+            <option value="VIP体检">VIP体检</option>
+            <option value="定制体检">定制体检</option>
+          </select>
+        </div>
+        <button type="submit" class="btn" id="submitBtn">立即预约</button>
+        <p class="tip">提交后客服会第一时间致电确认</p>
+      </form>
     </div>
   </div>
   <script>
@@ -97,21 +83,15 @@
       var webhook = 'https://open.feishu.cn/open-apis/bot/v2/hook/8a3faff5-65f1-473e-93dc-1a8b0655e9bf';
       var now = new Date();
       var ts = [now.getFullYear(), '-', String(now.getMonth()+1).padStart(2,'0'), '-', String(now.getDate()).padStart(2,'0'), ' ', String(now.getHours()).padStart(2,'0'), ':', String(now.getMinutes()).padStart(2,'0')].join('');
-      var lines = ['&#128293; 青商H5预约', '&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;&#9135;', '&#128100; 姓名：' + name, '&#127970; 公司：' + company, '&#128241; 手机：' + phone, '&#128181; 服务：' + service, '&#9200; ' + ts];
-      var msg = lines.join('\n');
-      fetch(webhook, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({msg_type: 'text', content: {text: msg}})
-      })
-      .then(function() {
-        document.getElementById('formCard').classList.add('hidden');
-        document.getElementById('successCard').classList.add('show');
-      })
-      .catch(function() {
-        document.getElementById('formCard').classList.add('hidden');
-        document.getElementById('successCard').classList.add('show');
-      });
+      var lines = ['🔥 青商H5预约', '━━━━━━━━━━', '👤 姓名：' + name, '🏢 公司：' + company, '📱 手机：' + phone, '💰 服务：' + service, '⏰ ' + ts];
+      var msg = lines.join('
+');
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', webhook, true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onerror = function() { window.location.href = '/success.html'; };
+      xhr.onload = function() { window.location.href = '/success.html'; };
+      xhr.send(JSON.stringify({msg_type: 'text', content: {text: msg}}));
       return false;
     }
   </script>
